@@ -1,4 +1,4 @@
-class CreaateContestants < ActiveRecord::Migration[5.1]
+class CreateContestants < ActiveRecord::Migration[5.1]
   def change
     create_table :contestants do |t|
       t.string :name
