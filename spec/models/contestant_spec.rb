@@ -13,4 +13,11 @@ RSpec.describe Contestant, type: :model do
     it {should have_many :contestant_projects}
     it {should have_many(:projects).through(:contestant_projects)}
   end
+
+  it 'can calculate the average xp of contestants' do
+    jay = Contestant.create(name: "Jay McCarroll", age: 40, hometown: "LA", years_of_experience: 13)
+    gretchen = Contestant.create(name: "Gretchen Jones", age: 36, hometown: "NYC", years_of_experience: 12)
+    
+    expect(Contestant.average_xp).to eq(12.5)
+  end
 end
