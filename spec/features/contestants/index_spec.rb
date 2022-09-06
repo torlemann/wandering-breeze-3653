@@ -26,9 +26,10 @@ RSpec.describe 'contestant index' do
 
         visit '/contestants'
 
+
         expect(page).to have_content(jay.name)
         expect(page).to have_content("Projects: News Chic")
 
-        #save_and_open_page
+        save_and_open_page
     end
 end
