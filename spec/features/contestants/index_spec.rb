@@ -17,8 +17,10 @@ RSpec.describe 'contestant index' do
         upholstery_tux = furniture_challenge.projects.create(name: "Upholstery Tuxedo", material: "Couch")
         lit_fit = furniture_challenge.projects.create(name: "Litfit", material: "Lamp")
         
-        ContestantProject.create(contestant_id: jay.id, project_id: news_chic.id)
-        ContestantProject.create(contestant_id: gretchen.id, project_id: news_chic.id)
+        #ContestantProject.create(contestant_id: jay.id, project_id: news_chic.id)
+        jay.projects << news_chic
+        #ContestantProject.create(contestant_id: gretchen.id, project_id: news_chic.id)
+        news_chic.contestants << gretchen
         ContestantProject.create(contestant_id: gretchen.id, project_id: upholstery_tux.id)
         ContestantProject.create(contestant_id: kentaro.id, project_id: upholstery_tux.id)
         ContestantProject.create(contestant_id: kentaro.id, project_id: boardfit.id)
@@ -26,10 +28,19 @@ RSpec.describe 'contestant index' do
 
         visit '/contestants'
 
+        within "#contestant-#{jay.id}" do
+            expect(page).to have_content(jay.name)
+        end
+        
+        within "#contestant-#{gretchen.id}" do
+            expect(page).to have_content(gretchen.name)
+            expect(page).to have_content("Projects: #{news_chic.name}")
+        end
+        
+        within "#contestant-#{kentaro.id}" do
+            expect(page).to have_content(kentaro.name)
+            expect(page).to have_content("Projects: #{boardfit.name}, #{upholstery_tux.name}")
+        end
 
-        expect(page).to have_content(jay.name)
-        expect(page).to have_content("Projects: News Chic")
-
-        save_and_open_page
     end
 end

@@ -38,7 +38,7 @@ RSpec.describe 'project show' do
         visit "/projects/#{@news_chic.id}"
         
         expect(page).to have_content(@news_chic.name)
-        expect(page).to have_content(@news_chic.enrollment)
+        expect(page).to have_content("Number of Contestants: #{@news_chic.enrollment}")
         
        #save_and_open_page
     end
@@ -59,8 +59,8 @@ RSpec.describe 'project show' do
         
         visit "/projects/#{@news_chic.id}"
 
-        expect(page).to have_content("Average Contestant Experience: 12.5 years")
-        save_and_open_page
+        expect(page).to have_content("Average Contestant Experience: #{@news_chic.contestants.average_xp} years")
+        
     end
 
     xit 'can add a contestant to a project' do
@@ -79,14 +79,14 @@ RSpec.describe 'project show' do
         
         visit "/projects/#{@news_chic.id}"
 
-        fill_in("Search", with: "#{kentaro.name}")
-        click_on("Submit")
-        within("#contestant_#{kentaro.id}") do
-            click_on("Add contestant to Project")
-        end
+        fill_in("Search", with: "#{kentaro.id}")
+        click_on("Save")
         expect(current_path).to eq("/projects/#{@news_chic.id}")
         expect(page).to have_content("Number of Contestants: 3")
         visit "/contestants"
-        #within for kentaro projects?
+        within "#contestant-#{kentaro.id}" do
+            expect(page).to have_content(kentaro.name)
+            expect(page).to have_content("Projects: #{@news_chic.name}, #{@boardfit.name}, #{@upholstery_tux.name}")
+        end
     end
 end

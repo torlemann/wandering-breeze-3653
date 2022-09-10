@@ -4,3 +4,9 @@
 <p>Challenge Theme: <%= @project.challenge.theme %></p>
 <p>Number of Contestants: <%= @project.enrollment %></p>
 <p>Average Contestant Experience: <%= @project.contestants.average_xp %> years</p>
+<%#To add a contestant to a project, we need to create a contestant_project%>
+<%= form_with url: "/projects/#{@project.id}/contestant_projects", method: :post do |form| %>
+    <%= form.label "Add a contestant to this project:" %>
+    <%= form.number_field: :search %>
+    <%= form.submit %>
+<% end %>

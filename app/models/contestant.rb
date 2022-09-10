@@ -5,6 +5,7 @@ class Contestant < ApplicationRecord
   has_many :projects, through: :contestant_projects
 
   def self.average_xp
-    pluck(:years_of_experience).sum.to_f / count
+    #pluck(:years_of_experience).sum.to_f / count
+    average(:years_of_experience)
   end
 end
